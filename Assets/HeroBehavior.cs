@@ -14,25 +14,31 @@ public class HeroBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))
         {
+            //need to check for touching the ground to be able to jump
             Debug.Log("TEST! with W");
-            rb.AddForce(new Vector3(0f, 5f, 0f), ForceMode2D.Impulse);
+            rb.AddForce(new Vector3(0f, 10f, 0f), ForceMode2D.Impulse);
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
             Debug.Log("TEST! with A");
             rb.AddForce(new Vector3(-5f, 0f, 0f), ForceMode2D.Impulse);
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKey(KeyCode.S))
         {
             Debug.Log("TEST! with S");
-            rb.AddForce(new Vector3(0f, -5f, 0f), ForceMode2D.Impulse);
+            rb.AddForce(new Vector3(0f, -10f, 0f), ForceMode2D.Impulse);
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
             Debug.Log("TEST! with D");
             rb.AddForce(new Vector3(5f, 0f, 0f), ForceMode2D.Impulse);
+        }
+        if(Input.GetKey(KeyCode.Space))
+        {
+            Debug.Log("TEST! with Space - Spring shoes!");
+            rb.AddForce(new Vector3(0f, 30f, 0f), ForceMode2D.Impulse);
         }
         
     }
