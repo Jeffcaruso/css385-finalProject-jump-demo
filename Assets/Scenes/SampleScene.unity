@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 829533209}
   - component: {fileID: 829533208}
   - component: {fileID: 829533210}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 1328558185}
   - component: {fileID: 1328558188}
   - component: {fileID: 1328558187}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Floor
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -554,12 +554,12 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &1643988681
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -665,6 +665,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e467b34b44cea43ba06bf0aa31ea01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 10
+  maxSpeed: 7
+  jumpForce: 15
+  jumpDelay: 0.25
+  runningJumpForce: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  groundLength: 0.55
+  linearDrag: 4
+  gravity: 1
+  fallMultiplier: 5
+  colliderOffset: {x: 0.5, y: 0, z: 0}
 --- !u!1 &1965007244
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,7 +789,7 @@ GameObject:
   - component: {fileID: 2039378439}
   - component: {fileID: 2039378438}
   - component: {fileID: 2039378440}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square (1)
   m_TagString: Floor
   m_Icon: {fileID: 0}
