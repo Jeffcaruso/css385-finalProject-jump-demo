@@ -165,3 +165,16 @@ public class HeroBehavior : MonoBehaviour
     }
 
 }
+
+
+
+
+
+/*
+Links to see to further facilitate this code
+See ReadMe at: https://github.com/Jeffcaruso/css385-finalProject-jump-demo
+Links:
+Raycast: https://docs.unity3d.com/ScriptReference/Physics2D.Raycast.html 
+Link info: https://github.com/t4guw/100-Unity-Mechanics-for-Programmers/tree/master/programs/super_mario_style_jump 
+*/
+
