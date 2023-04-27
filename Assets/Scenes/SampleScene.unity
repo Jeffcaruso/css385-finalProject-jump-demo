@@ -677,7 +677,7 @@ MonoBehaviour:
   linearDrag: 4
   gravity: 1
   fallMultiplier: 5
-  colliderOffset: {x: 0.5, y: 0, z: 0}
+  colliderOffset: {x: 0.51, y: 0, z: 0}
 --- !u!1 &1965007244
 GameObject:
   m_ObjectHideFlags: 0
