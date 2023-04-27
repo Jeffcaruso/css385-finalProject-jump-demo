@@ -8,7 +8,9 @@
 
 ### Misc
 **linearDrag** - slowing you down
+
 **gravity** -  higher means more gravity
+
 **fallMultiplier** - impacting gravity (for falling faster), another aspect of manipulating gravity in a limited capacity. Useful so you can quickly fall after a longer distance jump covering the distance the player wants out of it.
 
 
