@@ -2,14 +2,14 @@
 
 ## Key variable to influence jumping characteristics
 ### vertical movement
-**jumpForce** - normal jump force
-**runningJumpForce** - how much extra power you get for a running jump (may end up wanting to reduce this...)
-**jumpDelay** - Giving the player a 'fudge' factor, where they can press the key early
+- **jumpForce** - normal jump force
+- **runningJumpForce** - how much extra power you get for a running jump (may end up wanting to reduce this...)
+- **jumpDelay** - Giving the player a 'fudge' factor, where they can press the key early
 
 ### Misc
-**linearDrag** - slowing you down
-**gravity** -  higher means more gravity
-**fallMultiplier** - impacting gravity (for falling faster), another aspect of manipulating gravity in a limited capacity. Useful so you can quickly fall after a longer distance jump covering the distance the player wants out of it.
+- **linearDrag** - slowing you down
+- **gravity** -  higher means more gravity
+- **fallMultiplier** - impacting gravity (for falling faster), another aspect of manipulating gravity in a limited capacity. Useful so you can quickly fall after a longer distance jump covering the distance the player wants out of it.
 
 
 ## Steps for tuning floor detection (for jumping):
