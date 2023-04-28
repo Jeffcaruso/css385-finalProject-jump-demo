@@ -54,32 +54,32 @@ public class HeroBehavior : MonoBehaviour
 
 
 
+        //spring shoes ultra jump
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            //do spring shoes (mega jump) this round
+            Debug.Log("Testing, LeftShift has been pressed, ultra jump!");
+
+            jumpForce *= SpringShoeMultiplier;
+
+            Debug.Log("Jump force is " + jumpForce);
+
+            //need item below...
+            jumpTimer = Time.time + jumpDelay;
+        }
         //normal jump
         if (Input.GetKeyDown(KeyCode.W))
         {
             Debug.Log("Testing, W has been pressed, normal jump!");
 
+            jumpForce = defaultJumpForce; //this also just might make more sense than the if on 50-53
+
             jumpTimer = Time.time + jumpDelay;
         }                
-        //spring shoes ultra jump
-        else
-        {
-            if(Input.GetKeyDown(KeyCode.LeftShift))
-            {
-                //do spring shoes (mega jump) this round
-                Debug.Log("Testing, LeftShift has been pressed, ultra jump!");
 
-                jumpForce *= SpringShoeMultiplier;
 
-                Debug.Log("Jump force is " + jumpForce);
 
-                //need item below...
-                jumpTimer = Time.time + jumpDelay;
-            }
 
-            //do nothing vertically this round
-
-        }
 
         direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
