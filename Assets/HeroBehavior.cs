@@ -13,7 +13,7 @@ public class HeroBehavior : MonoBehaviour
     public float jumpForce = 10f;
     public float defaultJumpForce = 10f;
 
-    public float SpringShoeMultiplier = 3f;
+    public float SpringShoeMultiplier = 2.5f;
     public bool springShoesON = false;
 
     public float jumpDelay = 0.25f;
@@ -52,25 +52,32 @@ public class HeroBehavior : MonoBehaviour
             jumpForce = defaultJumpForce;
         }
 
+
+
         //normal jump
         if (Input.GetKeyDown(KeyCode.W))
         {
             Debug.Log("Testing, W has been pressed, normal jump!");
 
             jumpTimer = Time.time + jumpDelay;
-        }
-                
+        }                
         //spring shoes ultra jump
-        if(Input.GetKeyDown(KeyCode.LeftShift))   //Left meta is Windows key or Left Command key!
+        else
         {
-            Debug.Log("Testing, LeftShift has been pressed, ultra jump!");
+            if(Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                //do spring shoes (mega jump) this round
+                Debug.Log("Testing, LeftShift has been pressed, ultra jump!");
 
-            jumpForce *= SpringShoeMultiplier;
+                jumpForce *= SpringShoeMultiplier;
 
-            Debug.Log("Jump force is " + jumpForce);
+                Debug.Log("Jump force is " + jumpForce);
 
-            //need item below...
-            jumpTimer = Time.time + jumpDelay;
+                //need item below...
+                jumpTimer = Time.time + jumpDelay;
+            }
+
+            //do nothing vertically this round
 
         }
 
