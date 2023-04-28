@@ -9,7 +9,13 @@ public class HeroBehavior : MonoBehaviour
     public float maxSpeed = 7f;
 
     [Header("Vertical Movement")]
-    public float jumpForce = 15f;
+    //ensure the next two items are the same, or you will only use defaultJumpForce value!!!
+    public float jumpForce = 10f;
+    public float defaultJumpForce = 10f;
+
+    public float SpringShoeMultiplier = 3f;
+    public bool springShoesON = false;
+
     public float jumpDelay = 0.25f;
     public float runningJumpForce = 5f;
 
@@ -37,18 +43,38 @@ public class HeroBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         Debug.Log("On ground is : " + onGround + "\n");
         onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer) || Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
 
+        //reset jump force to default
+        if (jumpTimer == 0)
+        {
+            jumpForce = defaultJumpForce;
+        }
+
+        //normal jump
         if (Input.GetKeyDown(KeyCode.W))
         {
+            Debug.Log("Testing, W has been pressed, normal jump!");
+
             jumpTimer = Time.time + jumpDelay;
+        }
+                
+        //spring shoes ultra jump
+        if(Input.GetKeyDown(KeyCode.LeftShift))   //Left meta is Windows key or Left Command key!
+        {
+            Debug.Log("Testing, LeftShift has been pressed, ultra jump!");
+
+            jumpForce *= SpringShoeMultiplier;
+
+            Debug.Log("Jump force is " + jumpForce);
+
+            //need item below...
+            jumpTimer = Time.time + jumpDelay;
+
         }
 
         direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
-
 
         // if (Input.GetKeyDown(KeyCode.W))
         // {
@@ -148,6 +174,7 @@ public class HeroBehavior : MonoBehaviour
         float runJump = (Mathf.Abs(rb.velocity.x) / maxSpeed) * runningJumpForce;
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.AddForce(Vector2.up * (jumpForce + runJump), ForceMode2D.Impulse);
+        Debug.Log("Testing jump values: " + Vector2.up * (jumpForce + runJump));
 
         jumpTimer = 0;
     }
