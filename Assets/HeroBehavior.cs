@@ -13,7 +13,7 @@ public class HeroBehavior : MonoBehaviour
     public float jumpForce = 10f;
     public float defaultJumpForce = 10f;
 
-    public float SpringShoeMultiplier = 2.5f;
+    public float SpringShoeMultiplier = 2f;
     public bool springShoesON = false;
 
     public float jumpDelay = 0.25f;
@@ -52,7 +52,7 @@ public class HeroBehavior : MonoBehaviour
             jumpForce = defaultJumpForce;
         }
 
-        if(jumpTimer < Time.time)
+        while (jumpTimer < Time.time)
         {
             //no jump...
             //spring shoes ultra jump
@@ -61,6 +61,9 @@ public class HeroBehavior : MonoBehaviour
                 //do spring shoes (mega jump) this round
                 Debug.Log("Testing, LeftShift has been pressed, ultra jump!");
 
+                //prevent overloading of force with many shifts being pressed...
+                jumpForce = defaultJumpForce;
+
                 jumpForce *= SpringShoeMultiplier;
 
                 Debug.Log("Jump force is " + jumpForce);
@@ -68,11 +71,12 @@ public class HeroBehavior : MonoBehaviour
                 //need item below...
                 jumpTimer = Time.time + jumpDelay;
 
-                direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-                return;
+                //direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+                break;
             }
             //normal jump
-            if (Input.GetKeyDown(KeyCode.W))
+            else if (Input.GetKeyDown(KeyCode.W))
             {
                 Debug.Log("Testing, W has been pressed, normal jump!");
 
@@ -80,14 +84,18 @@ public class HeroBehavior : MonoBehaviour
 
                 jumpTimer = Time.time + jumpDelay;
 
-                direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+                //direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-                return;
+                break;
             }
 
+            
 
+            break;
 
-        }    
+        }
+
+        direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
         ////spring shoes ultra jump
         //if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -162,21 +170,31 @@ public class HeroBehavior : MonoBehaviour
 
     private void Move(float horizontal)
     {
+        Debug.Log("actually using Move method!");
+
+
+        //horizontal movement
         rb.AddForce(Vector2.right * horizontal * moveSpeed);
+
+        //if at top speed
         if (Mathf.Abs(rb.velocity.x) >= maxSpeed)
         {
+            //velocity acknowledged(existing Y, the velocity of x..., get a true total velocity (diagonal distance...)
             rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
             if (onGround)
             {
+                //optional coloring
                 //gameObject.GetComponent<SpriteRenderer>().color = Color.yellow;
             }
             else
             {
+                //optional coloring
                 //gameObject.GetComponent<SpriteRenderer>().color = Color.red;
             }
         }
         else
         {
+            //optional coloring
             //gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         }
     }
@@ -202,8 +220,10 @@ public class HeroBehavior : MonoBehaviour
             rb.drag = linearDrag * 0.15f;
             if(rb.velocity.y < 0)
             {
+                //if already falling, fall at normal rate...
                 rb.gravityScale = gravity * fallMultiplier;
-            } else if (rb.velocity.y > 0 && !(Input.GetKey(KeyCode.W)  || Input.GetKey(KeyCode.LeftShift)))  //added ! for leftshift...
+            } 
+            else if (rb.velocity.y > 0 && !(Input.GetKey(KeyCode.W)  || Input.GetKey(KeyCode.LeftShift)))  //Note  the W || <shift> making the 'reduced gravity'
             {
                 rb.gravityScale = gravity * (fallMultiplier / 2);
             }
@@ -248,3 +268,64 @@ Raycast: https://docs.unity3d.com/ScriptReference/Physics2D.Raycast.html
 Link info: https://github.com/t4guw/100-Unity-Mechanics-for-Programmers/tree/master/programs/super_mario_style_jump 
 */
 
+
+
+
+
+
+/*
+ * Currently Unused code... (Temporary storage, delete later)
+ * - Realistically, becuase this is a demo, leave this here to explore as needed.
+ * - Only really need to not carry this over to the final project...
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */ 
