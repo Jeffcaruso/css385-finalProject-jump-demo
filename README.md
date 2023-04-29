@@ -1,6 +1,9 @@
 # css385-finalProject-jump-demo
+### A prototpe of player movement (with jumping and spring shoes options) to eventualy be integrated in final project.
 
-## NOTE: Instructions below not fully updated yet (as of 4-28). Still a good starting place, but a few more nuances, see code comments, will close rest of gap.
+### NOTE: Instructions below not fully updated yet (as of 4-28). Still a good starting place, but a few more nuances, see code comments, will close rest of gap.
+
+
 
 ## Key variables to influence jumping characteristics
 ### vertical movement
@@ -20,3 +23,7 @@
 - increasing "groundLength" variable to just barely exceed character boundaries (at bottom, by .02 is about right), making the redline (gizmo) just barely sticking out the bottom
 - Adjust the Offset (x) value in unity editor to match character rigidbody boundaries in X direction
 ### 3) Turn on "OnDrawGizmos" if desired (comment it out)
+
+
+### Final Note to Notice when configuring Hero:
+- Make sure Hero Box Collider 2D has a slightly reduce collider size, with a slight (like .05 Edge Radius), such that for the edges the collider is perfectly aligned with hero dimensions. Note that the corners will not have the hitbox there, which when these are maintained as small fixes the issue of the box being supported by the ledge it is on even though it is not touching it!
