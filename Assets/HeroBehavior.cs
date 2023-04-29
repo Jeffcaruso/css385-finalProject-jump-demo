@@ -53,7 +53,11 @@ public class HeroBehavior : MonoBehaviour
     {
         //ground detection via Raycasts
         Debug.Log("On ground is : " + onGround + "\n");
-        onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer) || Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
+        onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer) || 
+            Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer) ||
+            Physics2D.Raycast(transform.position + (colliderOffset /2), Vector2.down, groundLength, groundLayer) ||
+            Physics2D.Raycast(transform.position - (colliderOffset /2), Vector2.down, groundLength, groundLayer) ||
+            Physics2D.Raycast(transform.position, Vector2.down, groundLength, groundLayer);  //center
 
         //reset jump force to default
         if (jumpTimer == 0)
@@ -200,11 +204,16 @@ public class HeroBehavior : MonoBehaviour
         //set color
         Gizmos.color = Color.red;
 
-        // Vector2 tempPos = transform.position;
-        // tempPos.x += (float).5;
+        //Left and right (0%, 100%)
         Gizmos.DrawLine(transform.position + colliderOffset, transform.position + colliderOffset + Vector3.down * groundLength);
-        // tempPos.x -= 1;
         Gizmos.DrawLine(transform.position - colliderOffset, transform.position - colliderOffset + Vector3.down * groundLength);
+
+        //midpoint (25%, 75%)
+        Gizmos.DrawLine(transform.position + (colliderOffset / 2), transform.position + (colliderOffset / 2) + Vector3.down * groundLength);
+        Gizmos.DrawLine(transform.position - (colliderOffset / 2), transform.position - (colliderOffset / 2) + Vector3.down * groundLength);
+
+        //true midpoint (50%)
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * groundLength);
     }
 
 }
