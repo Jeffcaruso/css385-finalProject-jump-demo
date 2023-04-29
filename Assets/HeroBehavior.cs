@@ -52,36 +52,71 @@ public class HeroBehavior : MonoBehaviour
             jumpForce = defaultJumpForce;
         }
 
-
-
-        //spring shoes ultra jump
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if(jumpTimer < Time.time)
         {
-            //do spring shoes (mega jump) this round
-            Debug.Log("Testing, LeftShift has been pressed, ultra jump!");
+            //no jump...
+            //spring shoes ultra jump
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                //do spring shoes (mega jump) this round
+                Debug.Log("Testing, LeftShift has been pressed, ultra jump!");
 
-            jumpForce *= SpringShoeMultiplier;
+                jumpForce *= SpringShoeMultiplier;
 
-            Debug.Log("Jump force is " + jumpForce);
+                Debug.Log("Jump force is " + jumpForce);
 
-            //need item below...
-            jumpTimer = Time.time + jumpDelay;
-        }
-        //normal jump
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            Debug.Log("Testing, W has been pressed, normal jump!");
+                //need item below...
+                jumpTimer = Time.time + jumpDelay;
 
-            jumpForce = defaultJumpForce; //this also just might make more sense than the if on 50-53
+                direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+                return;
+            }
+            //normal jump
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                Debug.Log("Testing, W has been pressed, normal jump!");
 
-            jumpTimer = Time.time + jumpDelay;
-        }                
+                jumpForce = defaultJumpForce; //this also just might make more sense than the if on 50-53
+
+                jumpTimer = Time.time + jumpDelay;
+
+                direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+                return;
+            }
+
+
+
+        }    
+
+        ////spring shoes ultra jump
+        //if (Input.GetKeyDown(KeyCode.LeftShift))
+        //{
+        //    //do spring shoes (mega jump) this round
+        //    Debug.Log("Testing, LeftShift has been pressed, ultra jump!");
+
+        //    jumpForce *= SpringShoeMultiplier;
+
+        //    Debug.Log("Jump force is " + jumpForce);
+
+        //    //need item below...
+        //    jumpTimer = Time.time + jumpDelay;
+        //}
+        ////normal jump
+        //if (Input.GetKeyDown(KeyCode.W))
+        //{
+        //    Debug.Log("Testing, W has been pressed, normal jump!");
+
+        //    jumpForce = defaultJumpForce; //this also just might make more sense than the if on 50-53
+
+        //    jumpTimer = Time.time + jumpDelay;
+        //}                
 
 
 
 
-
-        direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        ////DO NEED THIS ONE LINE DIRECTLY BELOW!
+        //direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
         // if (Input.GetKeyDown(KeyCode.W))
         // {
@@ -168,7 +203,7 @@ public class HeroBehavior : MonoBehaviour
             if(rb.velocity.y < 0)
             {
                 rb.gravityScale = gravity * fallMultiplier;
-            } else if (rb.velocity.y > 0 && !Input.GetKey(KeyCode.W))
+            } else if (rb.velocity.y > 0 && !(Input.GetKey(KeyCode.W)  || Input.GetKey(KeyCode.LeftShift)))  //added ! for leftshift...
             {
                 rb.gravityScale = gravity * (fallMultiplier / 2);
             }
@@ -181,7 +216,8 @@ public class HeroBehavior : MonoBehaviour
         float runJump = (Mathf.Abs(rb.velocity.x) / maxSpeed) * runningJumpForce;
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.AddForce(Vector2.up * (jumpForce + runJump), ForceMode2D.Impulse);
-        Debug.Log("Testing jump values: " + Vector2.up * (jumpForce + runJump));
+       
+        Debug.Log("Testing jump values: " + (Vector2.up * (jumpForce + runJump)));
 
         jumpTimer = 0;
     }
