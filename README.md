@@ -3,6 +3,7 @@
 
 ### NOTE: Instructions below not fully updated yet (as of 4-28). Still a good starting place, but a few more nuances, see code comments, will close rest of gap.
 
+### Link to [Play a WebGL Build of this Demo](https://jeffcaruso.github.io/css385-finalProject-jump-demo/)
 
 
 ## Key variables to influence jumping characteristics
