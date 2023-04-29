@@ -4,39 +4,45 @@ using UnityEngine;
 
 public class HeroBehavior : MonoBehaviour
 {
-    //Honestly, should consider making nearly all of these in private so Unity editor isn't tampering with them...
-
+    //Most of these Vars are made private b/c it will only add confusion modifying them in unity editor...
     [Header("Horizontal Movement")]
-    public float moveSpeed = 10f;
-    public float maxSpeed = 7f;
+    private float moveSpeed = 10f;
+    private float maxSpeed = 7f;
 
     [Header("Vertical Movement")]
     //ensure the next two items are the same, or you will only use defaultJumpForce value!!!
-    public float jumpForce = 10f;
-    public float defaultJumpForce = 10f;
+    private float jumpForce = 10f;
+    private float defaultJumpForce = 10f;
 
-    public float SpringShoeMultiplier = 1.5f;
+    private float SpringShoeMultiplier = 1.5f;
     //public bool springShoesON = false; //MAY END UP BEING USEFUL FOR FUTURE INTEGRATIONS (could be a killswitch for letting shift do a jump...
     //or could adjust spring shoe multiplier to 1... (could have upgraded spring shoes on occasions if needed...
 
-    public float jumpDelay = 0.25f;
-    public float runningJumpForce = 5f;
+    private float jumpDelay = 0.25f;
+    private float runningJumpForce = 2.5f; //this is a bit too strong at 5...
 
-    [Header("Misc")]
+
+    [Header("Items To Handle in Unity Editor")]
+    //do in unity editor to 'floor' layer!
     public LayerMask groundLayer;
-    public float groundLength = 1.27f;  //.27
-    public float linearDrag = 4f;
-    public float gravity = 1f;
-    public float fallMultiplier = 3f;  //was 5...
+    public float groundLength = 1.27f;  //Will need to be customized (useful to change in editor), leaving public for now
     public Vector3 colliderOffset;
+    public int Change_Movement_In_Code = 1;  //reminder to change movement vars in the code here :)
 
-    [Header("Private Vars")]
+    //more partially movement related items
+    [Header("Misc Movement")]
+    private float linearDrag = 4f;
+    private float gravity = 1f;
+    private float fallMultiplier = 3f;  //was 5...
+    
+
+    [Header("Misc Private Vars")]
     private bool onGround = true;  //false 
     private Rigidbody2D rb;
     private Vector2 direction;
     private float jumpTimer;
-    
 
+    // Start is called before frame 0
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -220,7 +226,7 @@ Link info: https://github.com/t4guw/100-Unity-Mechanics-for-Programmers/tree/mas
 /*
  * Currently Unused code... (Temporary storage, delete later)
  * - Realistically, becuase this is a demo, leave this here to explore as needed.
- * - Only really need to not carry this over to the final project...
+ * - No need to carry this part (comment section here) over to the final project...
  * 
  * 
  * Input code
@@ -253,6 +259,7 @@ Link info: https://github.com/t4guw/100-Unity-Mechanics-for-Programmers/tree/mas
         //     Debug.Log("TEST! with Space - Spring shoes!");
         //     rb.AddForce(new Vector3(0f, 21f, 0f), ForceMode2D.Impulse);
         // } 
+ * 
  * 
  * 
  * 
