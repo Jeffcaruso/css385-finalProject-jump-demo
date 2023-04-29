@@ -1,6 +1,9 @@
 # css385-finalProject-jump-demo
+## A prototpe of player movement (with jumping and spring shoes options) to eventualy be integrated in final project.
 
-## NOTE: Instructions below not fully updated yet (as of 4-28). Still a good starting place, but a few more nuances, see code comments, will close rest of gap.
+### NOTE: Instructions below not fully updated yet (as of 4-28). Still a good starting place, but a few more nuances, see code comments, will close rest of gap.
+
+
 
 ## Key variables to influence jumping characteristics
 ### vertical movement
