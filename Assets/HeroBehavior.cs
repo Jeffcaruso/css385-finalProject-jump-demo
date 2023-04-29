@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HeroBehavior : MonoBehaviour
 {
+    //Honestly, should consider making nearly all of these in private so Unity editor isn't tampering with them...
+
     [Header("Horizontal Movement")]
     public float moveSpeed = 10f;
     public float maxSpeed = 7f;
@@ -13,8 +15,9 @@ public class HeroBehavior : MonoBehaviour
     public float jumpForce = 10f;
     public float defaultJumpForce = 10f;
 
-    public float SpringShoeMultiplier = 2f;
-    public bool springShoesON = false;
+    public float SpringShoeMultiplier = 1.5f;
+    //public bool springShoesON = false; //MAY END UP BEING USEFUL FOR FUTURE INTEGRATIONS (could be a killswitch for letting shift do a jump...
+    //or could adjust spring shoe multiplier to 1... (could have upgraded spring shoes on occasions if needed...
 
     public float jumpDelay = 0.25f;
     public float runningJumpForce = 5f;
@@ -27,13 +30,12 @@ public class HeroBehavior : MonoBehaviour
     public float fallMultiplier = 3f;  //was 5...
     public Vector3 colliderOffset;
 
+    [Header("Private Vars")]
     private bool onGround = true;  //false 
     private Rigidbody2D rb;
     private Vector2 direction;
     private float jumpTimer;
     
-
-    //public bool canJumpNow = false;
 
     void Start()
     {
@@ -43,12 +45,14 @@ public class HeroBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //ground detection via Raycasts
         Debug.Log("On ground is : " + onGround + "\n");
         onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer) || Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
 
         //reset jump force to default
         if (jumpTimer == 0)
         {
+            //generally won't need, but reduces shenanigans
             jumpForce = defaultJumpForce;
         }
 
@@ -65,14 +69,7 @@ public class HeroBehavior : MonoBehaviour
                 jumpForce = defaultJumpForce;
 
                 jumpForce *= SpringShoeMultiplier;
-
-                Debug.Log("Jump force is " + jumpForce);
-
-                //need item below...
                 jumpTimer = Time.time + jumpDelay;
-
-                //direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
                 break;
             }
             //normal jump
@@ -81,80 +78,17 @@ public class HeroBehavior : MonoBehaviour
                 Debug.Log("Testing, W has been pressed, normal jump!");
 
                 jumpForce = defaultJumpForce; //this also just might make more sense than the if on 50-53
-
                 jumpTimer = Time.time + jumpDelay;
-
-                //direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
                 break;
-            }
-
-            
-
+            }            
+            //no vertical inputs
             break;
-
         }
 
-        direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
-        ////spring shoes ultra jump
-        //if (Input.GetKeyDown(KeyCode.LeftShift))
-        //{
-        //    //do spring shoes (mega jump) this round
-        //    Debug.Log("Testing, LeftShift has been pressed, ultra jump!");
-
-        //    jumpForce *= SpringShoeMultiplier;
-
-        //    Debug.Log("Jump force is " + jumpForce);
-
-        //    //need item below...
-        //    jumpTimer = Time.time + jumpDelay;
-        //}
-        ////normal jump
-        //if (Input.GetKeyDown(KeyCode.W))
-        //{
-        //    Debug.Log("Testing, W has been pressed, normal jump!");
-
-        //    jumpForce = defaultJumpForce; //this also just might make more sense than the if on 50-53
-
-        //    jumpTimer = Time.time + jumpDelay;
-        //}                
-
-
-
-
-        ////DO NEED THIS ONE LINE DIRECTLY BELOW!
-        //direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
-        // if (Input.GetKeyDown(KeyCode.W))
-        // {
-        //     //need to check for touching the ground to be able to jump
-        //     //need to check for contact with a 'Floor' tag!
-        //     Debug.Log("TEST! with W");
-        //     rb.AddForce(new Vector3(0f, 10f, 0f), ForceMode2D.Impulse);
-        // }
-        // if (Input.GetKey(KeyCode.A))
-        // {
-        //     Debug.Log("TEST! with A");
-        //     rb.AddForce(new Vector3(-.1f, 0f, 0f), ForceMode2D.Impulse);
-        // }
-        // if (Input.GetKeyDown(KeyCode.S))
-        // {
-        //     Debug.Log("TEST! with S");
-        //     rb.AddForce(new Vector3(0f, -5f, 0f), ForceMode2D.Impulse);
-        // }
-        // if (Input.GetKey(KeyCode.D))
-        // {
-        //     Debug.Log("TEST! with D");
-        //     rb.AddForce(new Vector3(.1f, 0f, 0f), ForceMode2D.Impulse);
-        // }
-        // if(Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     //need to check for contact with a 'Floor' tag!
-        //     Debug.Log("TEST! with Space - Spring shoes!");
-        //     rb.AddForce(new Vector3(0f, 21f, 0f), ForceMode2D.Impulse);
-        // }        
+        ///very important line directly below!!!
+        direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));       
     }
+
 
     private void FixedUpdate()
     {
@@ -170,7 +104,8 @@ public class HeroBehavior : MonoBehaviour
 
     private void Move(float horizontal)
     {
-        Debug.Log("actually using Move method!");
+        //this method is important, especially for functional horizontal movement!
+        //Debug.Log("actually using Move method!");
 
 
         //horizontal movement
@@ -200,6 +135,10 @@ public class HeroBehavior : MonoBehaviour
     }
 
 
+
+    //effecitvely, this is to do two things
+    // 1) Managing drag (make high/full amount) and gravity (can be low - not really relevant) ON GROUND
+    // 2) Slow Deceleration when jumping up (reduced gravity while still moving upwards), still is quite high gravity compared to earth... IN AIR
     private void ModifyPhysics()
     {
         bool changingDirections = (direction.x > 0 && rb.velocity.x < 0) || (direction.x < 0 && rb.velocity.x > 0);
@@ -231,6 +170,8 @@ public class HeroBehavior : MonoBehaviour
     }
 
 
+    //Jumping method
+    //Can see that the spring shoes are creating the higher jump both from results on screen and the debug with exact jump force.
     private void Jump()
     {
         float runJump = (Mathf.Abs(rb.velocity.x) / maxSpeed) * runningJumpForce;
@@ -239,12 +180,18 @@ public class HeroBehavior : MonoBehaviour
        
         Debug.Log("Testing jump values: " + (Vector2.up * (jumpForce + runJump)));
 
+        //reset, so we won't keep doing jumps.
         jumpTimer = 0;
     }
 
 
+    //optional visualization of ground contact detection
+    //however, doesn't appear when actually running (only in editor preview, and is very helpful, so leave it on)
+        // You can see if you have misconfigured your ground detection boundaries with these!
+    //Set the offsets in Unity editor!
     private void OnDrawGizmos()
     {
+        //set color
         Gizmos.color = Color.red;
 
         // Vector2 tempPos = transform.position;
@@ -255,9 +202,6 @@ public class HeroBehavior : MonoBehaviour
     }
 
 }
-
-
-
 
 
 /*
@@ -279,43 +223,36 @@ Link info: https://github.com/t4guw/100-Unity-Mechanics-for-Programmers/tree/mas
  * - Only really need to not carry this over to the final project...
  * 
  * 
+ * Input code
  * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
+        // if (Input.GetKeyDown(KeyCode.W))
+        // {
+        //     //need to check for touching the ground to be able to jump
+        //     //need to check for contact with a 'Floor' tag!
+        //     Debug.Log("TEST! with W");
+        //     rb.AddForce(new Vector3(0f, 10f, 0f), ForceMode2D.Impulse);
+        // }
+        // if (Input.GetKey(KeyCode.A))
+        // {
+        //     Debug.Log("TEST! with A");
+        //     rb.AddForce(new Vector3(-.1f, 0f, 0f), ForceMode2D.Impulse);
+        // }
+        // if (Input.GetKeyDown(KeyCode.S))
+        // {
+        //     Debug.Log("TEST! with S");
+        //     rb.AddForce(new Vector3(0f, -5f, 0f), ForceMode2D.Impulse);
+        // }
+        // if (Input.GetKey(KeyCode.D))
+        // {
+        //     Debug.Log("TEST! with D");
+        //     rb.AddForce(new Vector3(.1f, 0f, 0f), ForceMode2D.Impulse);
+        // }
+        // if(Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     //need to check for contact with a 'Floor' tag!
+        //     Debug.Log("TEST! with Space - Spring shoes!");
+        //     rb.AddForce(new Vector3(0f, 21f, 0f), ForceMode2D.Impulse);
+        // } 
  * 
  * 
  * 
